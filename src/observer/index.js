@@ -87,6 +87,7 @@ function defineReactive(obj, key, value) {
     get() {
       // console.log('----childDep----', key, childDep);
       // console.log('----get----', key, Dep.target);
+      
       // 收集依赖（{}）
       // vm._render 获取data中属性的时候watcher已经创建完成
       if (Dep.target) {
