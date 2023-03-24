@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
+	<title>Vue</title>
+</head>
+
+<body>
+	<div id="app" title="root" style="color: red; font-size: 24px;">
+		hello {{ message }} 
+		<h1>{{todo}}</h1>
+		<div>{{outline}}</div>
+	</div>
+	<script src="dist/vue.js"></script>
+	<script>
+
+    Vue.mixin({
+			created: function a() { 
+				// console.log('mixin created a');
+			}
+		});
+
+		Vue.mixin({
+			created: function b() { 
+				// console.log('mixin created b');
+			}
+		});
+
+		// console.log('Vue.options: ', Vue.options)
+		// window 挂载了Vue umd
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				message: 'vue',
+				todo: "Let's learn about responsiveness",
+				outline: ['Vue', 'React', 'Angular'],
+				framework: { mode: 'mvvm' },
+				a: {
+					b: {
+						c: 10
+					}
+				}
+			},
+			props: {},
+			created() { 
+				// console.log('component created');
+			},
+			mounted() {
+				// console.log('component mounted');
+			},
+			updated() {
+				// console.log('component updated');
+			},
+			methods: {
+				test() {},
+			},
+			watch: {
+				message: function(newVal, oldVal) {
+					// console.table({newVal,  oldVal});
+					// console.log(`new: ${newVal}, old: ${oldVal}`);
+				},
+				todo: {
+					handler(newVal, oldVal) {
+						// console.table({newVal,  oldVal});
+						// console.log(`new: ${newVal}, old: ${oldVal}`);
+					},
+          immediate: true,
+          dep: true,
+				},
+				// todo: 'test',
+				'a.b.c': function(newVal, oldVal) {
+					// console.table({newVal,  oldVal});
+					// console.log(`new: ${newVal}, old: ${oldVal}`);
+				}
+			}
+
+		});
+		// console.log(vm._data.teams.push({station: 'Java', seniority: 10}));
+		// console.log(vm);
+
+		// vue初次渲染 ——> 先初始化数据 ——> 将模版进行编译 ——> 变成render()函数 ——> 生成虚拟节点 ——> 变成真实DOM ——> 渲染到页面
+
+		// vue模版编译 template render el，el必须要有
+
+		setTimeout(() => {
+			// data数据更新
+
+			// 数据更新多次 vm._update(vm._render()) 执行多次，但是要求只执行一次
+			// 需要批量处理 vue解决方案 异步处理 数据更新后不会马上执行渲染
+			vm.message = 'vdom';
+			vm.todo = "Let's learn about diff";
+			vm.outline.push('Webpack');
+			vm.a.b.c = 200;
+			// vm.teams.push({job: 'Java', years: 10})
+			// console.log(vm)
+			// vm._update(vm._render())
+			
+			// vm._render data数据更新 render函数重新获取data 转化成vnode
+      // vm._update vnode 转化成真是dom
+			// vm._update(vm._render())
+
+			vm.$nextTick(() => {
+
+				// 在此处获取数据更新后的dom元素
+			  // console.log(vm.$el)
+
+		  });
+
+			// console.log('\n\n\n----vm----\n\n\n', vm, '\n\n\n');
+			
+		}, 1000)
+
+		
+
+
+	</script> 
+</body>
+
+</html>
